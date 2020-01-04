@@ -11,45 +11,36 @@ class Resolucao implements TextWrapInterface {
   /**
    * {@inheritdoc}
    */
+
+  // public function trim_value(&$value) 
+  // { 
+  //     $value = trim($value); 
+  // }
+
   public function textWrap(string $text, int $length): array 
   {
-    $cLength = "0";
+    $totalCaracteres = 0;
+    
+    $vetorPalavras = explode(" ",$text);
 
-    $words = explode(" ",$text);
 
     if(strlen($text) <= $length):
-        $newText = $text;
+      $novoTexto = $text;
     else:
         //Começa a criar o novo texto resumido.
-        $newText = "";
+        $novoTexto = "";
         //Acrescenta palavra por palavra na string enquanto ela
         //não exceder o tamanho máximo do resumo
-        for($i = 0; $i <count($words); $i++):
-          $cLength += strlen(" ".$words[$i]);
-          if($cLength <= $length):
-              $newText .= ' ' . $words[$i];
-          else:
-              foreach($words as $key => $value){
-                if(strlen($newText) >= $length):
-                  $n = '';
-                  $newText .= ' ' . $words[$i] . $n;
-                  break;
-                else:
-                  $n = '\n ';
-                  $newText .= $n . $words[$i] . '';
-                  break;
-                  
-                endif;
-              }
-          endif;
+        for($i = 0; $i < count($vetorPalavras); $i++):
+            $totalCaracteres += strlen($vetorPalavras[$i]);
+            if($totalCaracteres <= $length)
+              $novoTexto =  $novoTexto . ' ' . $vetorPalavras[$i];
+            else 
+          break;
         endfor;
     endif;
-    //retornar em array????
-    $newText = trim($newText);
-    $array = str_split($newText, $cLength);
 
-    return $array;
-    
+    return array($novoTexto);   
   }
 
   
